@@ -38,7 +38,6 @@
 (def handler
   (-> (br/make-handler route)                               ; handlerを作り、
       (hoge-middleware)                                     ; middlewareの引数として渡す
-      (muu/wrap-params)                                     ; 追加
       (muu/wrap-format)                                     ; 追加
       ))
 
