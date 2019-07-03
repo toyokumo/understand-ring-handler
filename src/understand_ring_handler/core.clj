@@ -27,9 +27,10 @@
   "/hoge以外へのリクエストかつレスポンスが404ならいつもhogeを返すようにする"
   [handler]
   ; 関数が戻り値
-  (fn [{:as req :keys [uri]}]                               ; リクエストマップの値を使える
-    (let [{:as res :keys [status]} (handler req)            ; ここで引数のhandler(= 元々のhandler)を実行
-          ]                                                 ; handlerの結果(= レスポンスマップ)に手を加えられる
+  (fn [{:as req :keys [uri]}]                        ; リクエストマップの値を使える
+    (let [req (assoc-in req [:params :hoge] "HOGE!") ; リクエストマップの値を自由に書き換えられる
+          {:as res :keys [status]} (handler req)     ; ここで引数のhandler(= 元々のhandler)を実行
+          ]                                          ; handlerの結果(= レスポンスマップ)に手を加えられる
       (if (and (= status 404) (not= uri "/hoge"))
         {:status 200
          :body "HOGE!"}
